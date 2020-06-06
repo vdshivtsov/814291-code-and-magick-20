@@ -1,5 +1,7 @@
 'use strict';
 
+var SIMILAR_WIZZARDS_AMOUNT = 4;
+
 var WIZZARD_FIRST_NAMES = [
   'Иван',
   'Хуан Себастьян',
@@ -71,9 +73,9 @@ var getWizzard = function () {
   return wizzard;
 };
 
-var getWizzardsArray = function (amount) {
+var getWizzardsArray = function () {
   var wizzards = [];
-  for (var i = 0; i < amount; i++) {
+  for (var i = 0; i < SIMILAR_WIZZARDS_AMOUNT; i++) {
     wizzards.push(getWizzard());
   }
   return wizzards;
@@ -113,6 +115,6 @@ var showSetupBlock = function (wizzards) {
   setupSimilarBlock.classList.remove('hidden');
 };
 
-var wizzardsData = getWizzardsArray(4);
+var wizzardsData = getWizzardsArray();
 
 showSetupBlock(wizzardsData);
