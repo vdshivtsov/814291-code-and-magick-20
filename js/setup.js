@@ -79,8 +79,40 @@ var getWizzardsArray = function (amount) {
   return wizzards;
 };
 
-var setupBlock = document.querySelector('.setup');
-setupBlock.classList.remove('hidden');
+var getWizzardElement = function (wizzard, template) {
+  var wizzardElement = template.cloneNode(true);
+  wizzardElement.querySelector('.setup-similar-label').textContent = wizzard.name;
+  wizzardElement.querySelector('.wizard-coat').style = 'fill: ' + wizzard.coatColor;
+  wizzardElement.querySelector('.wizard-eyes').style = 'fill: ' + wizzard.eyesColor;
+  return wizzardElement;
+};
 
-var wizzards = getWizzardsArray(4);
+var getWizzardsFragment = function (wizzards) {
+  var wizzardsFragment = document.createDocumentFragment();
+  var similarWizardTemplate = document.getElementById('similar-wizard-template').content.querySelector('.setup-similar-item');
 
+  for (var i = 0; i < wizzards.length; i++) {
+    wizzardsFragment.appendChild(getWizzardElement(wizzards[i], similarWizardTemplate));
+  }
+
+  return wizzardsFragment;
+};
+
+var renderSetupSimilarBlock = function (wizzards) {
+  var setupSimilarList = document.querySelector('.setup-similar-list');
+
+  setupSimilarList.appendChild(getWizzardsFragment(wizzards));
+};
+
+var showSetupBlock = function (wizzards) {
+  var setupBlock = document.querySelector('.setup');
+  var setupSimilarBlock = document.querySelector('.setup-similar');
+
+  renderSetupSimilarBlock(wizzards);
+  setupBlock.classList.remove('hidden');
+  setupSimilarBlock.classList.remove('hidden');
+};
+
+var wizzardsData = getWizzardsArray(4);
+
+showSetupBlock(wizzardsData);
