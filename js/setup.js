@@ -41,10 +41,24 @@ var WIZZARD_EYES_COLORS = [
   'green'
 ];
 
+var WIZZARD_FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 var setupUserName = document.querySelector('.setup-user-name');
+var setupWizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+var setupWizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
+var setupFireballWrap = document.querySelector('.setup-fireball-wrap');
+var coatColorInput = document.querySelector('input[name="coat-color"]');
+var eyesColorInput = document.querySelector('input[name="eyes-color"]');
+var fireballColorInput = setupFireballWrap.querySelector('input[name="fireball-color"]');
 
 var getRandomIntInclusive = function (min, max) {
   min = Math.ceil(min);
@@ -66,6 +80,10 @@ var getWizzardCoatColor = function () {
 
 var getWizzardEyesColor = function () {
   return WIZZARD_EYES_COLORS[getRandomIntInclusive(0, WIZZARD_EYES_COLORS.length - 1)];
+};
+
+var getWizzardFireballColor = function () {
+  return WIZZARD_FIREBALL_COLORS[getRandomIntInclusive(0, WIZZARD_FIREBALL_COLORS.length - 1)];
 };
 
 var getWizzard = function () {
@@ -111,6 +129,24 @@ var renderSetupSimilarBlock = function (wizzards) {
   setupSimilarList.appendChild(getWizzardsFragment(wizzards));
 };
 
+var changeWizzardCoatColor = function () {
+  var color = getWizzardCoatColor();
+  setupWizardCoat.style = 'fill: ' + color + ';';
+  coatColorInput.value = color;
+};
+
+var changeWizzardEyesColor = function () {
+  var color = getWizzardEyesColor();
+  setupWizardEyes.style = 'fill: ' + color + ';';
+  eyesColorInput.value = color;
+};
+
+var changeWizzardFireballColor = function () {
+  var color = getWizzardFireballColor();
+  setupFireballWrap.style = 'background-color: ' + color + ';';
+  fireballColorInput.value = color;
+};
+
 var onSetupPressEscape = function (evt) {
   if (evt.key === 'Escape' && evt.target !== setupUserName) {
     closeSetup();
@@ -120,11 +156,17 @@ var onSetupPressEscape = function (evt) {
 var closeSetup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onSetupPressEscape);
+  setupWizardCoat.removeEventListener('click', changeWizzardCoatColor);
+  setupWizardEyes.removeEventListener('click', changeWizzardEyesColor);
+  setupFireballWrap.removeEventListener('click', changeWizzardFireballColor);
 };
 
 var openSetup = function () {
   setup.classList.remove('hidden');
   document.addEventListener('keydown', onSetupPressEscape);
+  setupWizardCoat.addEventListener('click', changeWizzardCoatColor);
+  setupWizardEyes.addEventListener('click', changeWizzardEyesColor);
+  setupFireballWrap.addEventListener('click', changeWizzardFireballColor);
 };
 
 setupOpen.addEventListener('click', function () {
